@@ -8,17 +8,22 @@ namespace fizzbuzz_project
         {
 
             int fbuzz = 1000;
+            int numFizz = 0;
+            int numBuzz = 0;
+            int numTotal = 0;
 
-            for (int i = 0; i <= fbuzz; i++)
+            for (int i = 0; i < fbuzz; i++)
             {
 
-                if (i % 3 == 0)
+                if (i % 3 == 0 && i % 5 != 0)
                 {
+                    numFizz++;
                     System.Console.Write(i + " " + "Fizz " + " ");
                 }
 
-                if (i % 5 == 0)
+                if (i % 5 == 0 && i % 3 != 0)
                 {
+                    numBuzz++;
                     System.Console.Write(i + " " + "Buzz " + " ");
 
                 }
@@ -26,40 +31,16 @@ namespace fizzbuzz_project
 
                 if (i % 5 == 0 && i % 3 == 0)
                 {
+                    numTotal++;
                     System.Console.WriteLine("(Fizz" + "Buzz)");
                 }
 
             }
 
-            int[] nFizzBuzz = {fbuzz};
-            int[] nFizz = { fbuzz };
-            int[] nBuzz = {fbuzz};
 
-            for (int j = 0; j < nFizz.Length; j++)
-            {
-                if (j % 3 == 0)
-                {
-                    System.Console.WriteLine("There are (" + nFizz[j] + ") Fizz's");
-                }
-            }
-
-
-            for (int k = 0; k < nBuzz.Length; k++)
-            {
-                if (k % 5 == 0)
-                {
-                    System.Console.WriteLine("There are (" + nFizz[k] + ") Buzz's");
-                }
-            }
-
-
-            for (int l = 0; l < nBuzz.Length; l++)
-            {
-                if (l % 5 == 0)
-                {
-                    System.Console.WriteLine("There are (" + nFizz[l] + ") FizzBuzz's");
-                }
-            }
+            System.Console.WriteLine("There are (" + numFizz + ") Fizz's");
+            System.Console.WriteLine("There are (" + numBuzz + ") Buzz's");
+            System.Console.WriteLine("There are (" + numTotal + ") FizzBuzz's");
         }
     }
 }
