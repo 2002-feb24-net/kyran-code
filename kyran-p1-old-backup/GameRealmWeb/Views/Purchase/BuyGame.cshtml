@@ -1,0 +1,24 @@
+﻿@model GameRealmWeb.ViewModels.GamesViewModel
+
+@{
+    ViewData["Title"] = "Purchase";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>This is the "Buy Games" page!</p>
+
+<h1>Choose Games</h1>
+<h2>Price: @Model.Price</h2>
+
+<form action="/Pizza/Topping" method="POST">
+    @Html.AntiForgeryToken()
+    <select asp-for="@Model.">
+        @foreach (var item in @Model.Name)
+        {
+            
+        }
+    </select>
+    <button type="submit">Add Topping</button>
+</form>
+
