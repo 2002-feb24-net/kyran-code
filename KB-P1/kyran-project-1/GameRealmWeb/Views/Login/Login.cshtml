@@ -1,0 +1,13 @@
+﻿@model GameRealmWeb.ViewModels.AccountViewModel
+
+    <p>
+        @Html.AntiForgeryToken()
+        <label asp-for="@Model.userName">Username</label>
+        <input type="text" asp-for="@Model.userName">
+        @Html.ValidationMessageFor(avm => avm.userName)
+    <br />  
+
+        <label asp-for="@Model.passWord">Password</label>
+        <input type="password" asp-for="@Model.passWord">
+        @Html.ValidationMessageFor(avm => avm.passWord)
+    </p>
