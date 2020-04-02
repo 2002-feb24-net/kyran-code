@@ -9,22 +9,22 @@ using GameRealm.DataAccess.Model;
 
 namespace GameRealmWeb.Controllers
 {
-    public class LocationsController : Controller
+    public class CustomersController : Controller
     {
         private readonly Game_RealmContext _context;
 
-        public LocationsController(Game_RealmContext context)
+        public CustomersController(Game_RealmContext context)
         {
             _context = context;
         }
 
-        // GET: Locations
+        // GET: Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Locations.ToListAsync());
+            return View(await _context.Customer.ToListAsync());
         }
 
-        // GET: Locations/Details/5
+        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -32,39 +32,39 @@ namespace GameRealmWeb.Controllers
                 return NotFound();
             }
 
-            var locations = await _context.Locations
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (locations == null)
+            var customer = await _context.Customer
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(locations);
+            return View(customer);
         }
 
-        // GET: Locations/Create
+        // GET: Customers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Locations/Create
+        // POST: Customers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("StoreId,StoreName,Phone,Email,Street,City,State,ZipCode")] Locations locations)
+        public async Task<IActionResult> Create([Bind("CustomerId,FirstName,LastName,Phone,Email,Street,City,State,ZipCode,Password,UserName")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(locations);
+                _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(locations);
+            return View(customer);
         }
 
-        // GET: Locations/Edit/5
+        // GET: Customers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,22 +72,22 @@ namespace GameRealmWeb.Controllers
                 return NotFound();
             }
 
-            var locations = await _context.Locations.FindAsync(id);
-            if (locations == null)
+            var customer = await _context.Customer.FindAsync(id);
+            if (customer == null)
             {
                 return NotFound();
             }
-            return View(locations);
+            return View(customer);
         }
 
-        // POST: Locations/Edit/5
+        // POST: Customers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StoreId,StoreName,Phone,Email,Street,City,State,ZipCode")] Locations locations)
+        public async Task<IActionResult> Edit(int id, [Bind("CustomerId,FirstName,LastName,Phone,Email,Street,City,State,ZipCode,Password,UserName")] Customer customer)
         {
-            if (id != locations.StoreId)
+            if (id != customer.CustomerId)
             {
                 return NotFound();
             }
@@ -96,12 +96,12 @@ namespace GameRealmWeb.Controllers
             {
                 try
                 {
-                    _context.Update(locations);
+                    _context.Update(customer);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!LocationsExists(locations.StoreId))
+                    if (!CustomerExists(customer.CustomerId))
                     {
                         return NotFound();
                     }
@@ -112,10 +112,10 @@ namespace GameRealmWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(locations);
+            return View(customer);
         }
 
-        // GET: Locations/Delete/5
+        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,30 +123,30 @@ namespace GameRealmWeb.Controllers
                 return NotFound();
             }
 
-            var locations = await _context.Locations
-                .FirstOrDefaultAsync(m => m.StoreId == id);
-            if (locations == null)
+            var customer = await _context.Customer
+                .FirstOrDefaultAsync(m => m.CustomerId == id);
+            if (customer == null)
             {
                 return NotFound();
             }
 
-            return View(locations);
+            return View(customer);
         }
 
-        // POST: Locations/Delete/5
+        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var locations = await _context.Locations.FindAsync(id);
-            _context.Locations.Remove(locations);
+            var customer = await _context.Customer.FindAsync(id);
+            _context.Customer.Remove(customer);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LocationsExists(int id)
+        private bool CustomerExists(int id)
         {
-            return _context.Locations.Any(e => e.StoreId == id);
+            return _context.Customer.Any(e => e.CustomerId == id);
         }
     }
 }

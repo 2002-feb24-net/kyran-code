@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameRealmWeb.ViewModels
 {
-    public class PurchaseViewModel
+    public class GamesViewModel
     {
         [Display (Name = "ID")]
         public int id { get; set; }

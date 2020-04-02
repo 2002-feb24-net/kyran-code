@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace GameRealm.DataAccess.Model
 {
@@ -22,6 +24,18 @@ namespace GameRealm.DataAccess.Model
         public virtual DbSet<Orderline> Orderline { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var config = new ConfigurationBuilder()
+                                  .SetBasePath(Directory.GetCurrentDirectory())
+                                  .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                                  .Build();
+            string conn = config.GetConnectionString("Default");
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(conn);
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

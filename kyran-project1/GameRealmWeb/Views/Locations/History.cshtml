@@ -1,0 +1,22 @@
+﻿@model GameRealmWeb.ViewModels.OrdersViewModel
+
+    <h1></h1>
+    <h2></h2>
+
+<ul>
+@foreach (var order in @Model.Orders)
+{
+    <li>
+        Time: @order.Time.ToString()<br>
+        User: @order.Customer.UserName<br>
+        Price: @order.Checkout<br>
+        Games:
+        <ul>
+            @foreach (var item in order.Orderline)
+            {
+                <li></li>
+            }
+        </ul>
+    </li>
+}
+</ul>

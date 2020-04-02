@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using GameRealm.Library;
 using GameRealm.DataAccess.Model;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace GameRealm.DataAccess
 {
     public class CustomerDAL
     //customer data access library
     {
-        public void SaveCustomer(ICustomer customer)
+        Game_RealmContext ctx = new Game_RealmContext();
+        public void Add(Library.Customer customer)
         {
             using Game_RealmContext  ctx= new Game_RealmContext();
             var C_Customer = new Model.Customer();
@@ -31,37 +34,37 @@ namespace GameRealm.DataAccess
 
         }
 
-        public Model.Customer LoadCustomerByID(int customerID)
+        public Model.Customer LoadbyID(int customerID)
         {
-            using Game_RealmContext ctx = new Game_RealmContext();
-
-            var customerMatched = from customer in ctx.Customer
-                                   where customer.CustomerId == customerID
-                                   select customer;
-
-            return customerMatched.First();
+            return ctx.Customer.Find(customerID);
         }
 
-        public List<Model.Customer> LoadCustomersByName(string fName, string lName)
+        public void Remove(int id)
         {
-            using Game_RealmContext ctx = new Game_RealmContext();
-
-            var customersMatched = from customer in ctx.Customer
-                                   where customer.FirstName == fName && customer.LastName == lName
-                                   select customer;
-
-            return customersMatched.ToList();
+            var removeCust = ctx.Customer.Find(id);
+            ctx.Customer.Remove(removeCust);
+            ctx.SaveChanges();
         }
-
-        public int GetCustomerID(string username, string password)
+        public int AddCust(string fName, string lName, string username, string email, string pass)
         {
-            using Game_RealmContext ctx = new Game_RealmContext();
-            var customerIDList = from customer in ctx.Customer
-                                 where username == customer.UserName
-                                 && password == customer.Password
-                                 select customer.CustomerId;
-            var customerID = customerIDList.FirstOrDefault(); // unique combination so can return single, no duplicates possible from db
-            return customerID;
+            var new_cust = new Model.Customer
+            {
+                FirstName = fName,
+                Email = email,
+                UserName = username,
+                Password = pass,
+                LastName = lName
+            };
+            try
+            {
+                ctx.Customer.Add(new_cust);
+                ctx.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
+                Console.WriteLine("Email/username already exists");
+            }
+            return new_cust.CustomerId;
         }
     }
 }

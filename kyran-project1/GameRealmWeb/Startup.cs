@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ClientMVC
 {
@@ -26,9 +27,19 @@ namespace ClientMVC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<Game_RealmContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("Game_Realm")));
-            /*services.AddScoped<IRepository, GameRepository > ();*/
+            services.AddTransient<OrdersDAL, OrdersDAL>();
+            services.AddTransient<CustomerDAL, CustomerDAL>();
+            services.AddTransient<LocationsDAL, LocationsDAL>();
+            services.AddLogging(logger =>
+            {
+                logger.AddConfiguration(Configuration.GetSection("Logging"));               
+                logger.AddConsole();
+                logger.AddDebug();
+
+            });
+
+           
+            /*services.AddScoped<GameRepository>();*/
             services.AddControllersWithViews();
         }
 
